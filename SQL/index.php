@@ -33,7 +33,7 @@ catch(Exception $e)
     <h2>Ex</h2>
     <form id="contact" method="post" action="index.php" enctype="multipart/form-data" onsubmit="return VerificationFormulaire(this)" >
 
-    Numéro client: <input type="text" name="id" id="id"/><br />
+
     Nom: <input type="text" name="lastName" id="lastName"><br />
     Prénom: <input type="text" name="firstName" id="firstName"/><br />
     Date de naissance: <input type="date" name="birthDate" id="birthDate"/><br />
@@ -47,7 +47,7 @@ catch(Exception $e)
 
 
         <?php
-        if ( empty($_POST['id']) && empty($_POST['lastName']) && empty($_POST['firstName']) && empty($_POST['birthDate']) && empty($_POST['card']) && empty($_POST['cardNumber']))
+        if ( empty($_POST['lastName']) && empty($_POST['firstName']) && empty($_POST['birthDate']) && empty($_POST['card']) && empty($_POST['cardNumber']))
 
         {
 		  echo "ERREUR : tous les champs n'ont pas ete renseignés.";
@@ -56,7 +56,7 @@ catch(Exception $e)
          else
          //On récupère les valeurs entrées par l'utilisateur :
 	           {
-                    $id=htmlspecialchars($_POST['id']);
+
                     $lastName=htmlspecialchars($_POST['lastName']);
                     $firstName=htmlspecialchars($_POST['firstName']);
                     $birthDate=htmlspecialchars($_POST['birthDate']);
@@ -65,16 +65,23 @@ catch(Exception $e)
 
 
                     $req = $database->prepare('INSERT INTO clients(lastName, firstName, birthDate, card, cardNumber) VALUES(:lastName, :firstName, :birthDate, :card, :cardNumber)');
+                    $req->bindParam(':lastName', $lastName, PDO::PARAM_INT);
+                    $req->bindParam(':firstName', $firstName, PDO::PARAM_INT);
+                    $req->bindParam(':birthDate', $birthDate, PDO::PARAM_INT);
+                    $req->bindParam(':card', $card, PDO::PARAM_INT);
+                    $req->bindParam(':cardNumber', $cardNumber, PDO::PARAM_INT);
 
+                    //METHODE 1 
 
-                    $req->execute(array(
-                    'lastName' => $lastName,
-                    'firstName' => $firstName,
-                    'birthDate' => $birthDate,
-                    'card' => $card,
-                    'cardNumber' => $cardNumber
-                    ));
+                    // $req->execute(array(
+                    // 'lastName' => $lastName,
+                    // 'firstName' => $firstName,
+                    // 'birthDate' => $birthDate,
+                    // 'card' => $card,
+                    // 'cardNumber' => $cardNumber
+                    // ));
 
+                    $req->execute();
                 }
                 ?>
 
@@ -82,4 +89,4 @@ catch(Exception $e)
 </html>
 
 
-<!--Exercice 2: ECHEC!!!-->
+<!--Exercice 2: -->
