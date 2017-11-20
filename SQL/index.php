@@ -65,13 +65,13 @@ catch(Exception $e)
 
 
                     $req = $database->prepare('INSERT INTO clients(lastName, firstName, birthDate, card, cardNumber) VALUES(:lastName, :firstName, :birthDate, :card, :cardNumber)');
-                    $req->bindParam(':lastName', $lastName, PDO::PARAM_INT);
-                    $req->bindParam(':firstName', $firstName, PDO::PARAM_INT);
+                    $req->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+                    $req->bindParam(':firstName', $firstName, PDO::PARAM_STR);
                     $req->bindParam(':birthDate', $birthDate, PDO::PARAM_INT);
-                    $req->bindParam(':card', $card, PDO::PARAM_INT);
+                    $req->bindParam(':card', $card);
                     $req->bindParam(':cardNumber', $cardNumber, PDO::PARAM_INT);
 
-                    //METHODE 1 
+                    //METHODE 1
 
                     // $req->execute(array(
                     // 'lastName' => $lastName,
